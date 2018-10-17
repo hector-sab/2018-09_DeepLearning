@@ -12,6 +12,8 @@ __Cursos relacionados__
 
 Fei-Fei Li, Andrej Karpathy, Justin Johnson, [“CS231n: Convolutional Neural Networks for Visual Recognition”](http://cs231n.stanford.edu/). Stanford University, Spring 2016.
 
+Mariano Rivera, Alan Reyes, Francisco Gurrola, Ulises Rodríguez, [“XII Taller-Escuela de Procesamiento de Imágenes (PI18). Taller Keras”](http://pi2018.eventos.cimat.mx). CIMAT, 2018. 
+
 Sanja Fidler, [“Deep Learning in Computer Vision”](http://www.cs.toronto.edu/~fidler/teaching/2015/CSC2523.html). University of Toronto, Winter 2016.
 
 Hugo Larochelle, [“Neural Networks”](http://info.usherbrooke.ca/hlarochelle/neural_networks/content.html). Université de Sheerbroke.
