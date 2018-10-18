@@ -155,3 +155,5 @@ _Fuentes de información_
 
 Goodfellow, Ian; Bengio, Y.; Courville, A. Deep Learning [on line].    2016 [Consultation: 22/02/2016]. Available on: <http://www.deeplearningbook.org/>. 
 
+
+_Juega con la [demostración gráfica](http://playground.tensorflow.org/#activation=relu&regularization=L1&batchSize=10&dataset=gauss&regDataset=reg-plane&learningRate=0.01&regularizationRate=0&noise=0&networkShape=4,2&seed=0.42360&showTestData=true&discretize=true&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false) de deep learning!_
