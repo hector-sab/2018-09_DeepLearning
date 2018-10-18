@@ -33,7 +33,7 @@ __Contenido del curso__
 * Dropout.
 * Regularización.
 * Redes neuronales convolucionales.
-_Diversión y mucho más_
+* _Diversión y mucho más._
 
 
 __Requisitos__ 
