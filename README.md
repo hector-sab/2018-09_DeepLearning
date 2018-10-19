@@ -1,14 +1,130 @@
-# 2018-09_DeepLearning
-Material para la introducción de DeepLearning
+### Curso de Deep Learning, CICATA IPN Qro. 2018.
+www.cicataqro.ipn.mx
 
-En el siguiente se encuentra la presentación para el curso. Una vez que lo tengamos completo, sugiero pasarlo a pdf y dejarlo en su lugar.
-https://docs.google.com/presentation/d/1bH6CFAhBaSgL6xC21K4GCNIy6dnb9gfB2beEpRJX660/edit?usp=sharing
 
-Carpeta del curso en Drive: https://drive.google.com/drive/folders/1aMvmaUOgp3H9lPXoWzzPNoRznzgH5tIQ?usp=sharing
+_Notas para los instructores:_
 
-El contenido teórico se encuentra en la wiki (https://github.com/hector-sab/2018-09_DeepLearning/wiki).
+En el siguiente se encuentra la [presentación para el curso](https://docs.google.com/presentation/d/1bH6CFAhBaSgL6xC21K4GCNIy6dnb9gfB2beEpRJX660/edit?usp=sharing).
 
-__Cursos relacionados__
+Carpeta del curso en [Drive](https://drive.google.com/drive/folders/1aMvmaUOgp3H9lPXoWzzPNoRznzgH5tIQ?usp=sharing).
+
+El contenido teórico se encuentra en la [wiki](https://github.com/hector-sab/2018-09_DeepLearning/wiki).
+
+
+__Objetivo del curso__
+
+El curso de Deep Learning presentado utiliza herramientas básicas de código abierto. Pretende introducir al usuario a este entorno de programación para el entrenamiento, prueba y detección de objetos utilizando redes neuronales en Tensorflow con un enfoque teórico-práctico. 
+
+
+__Contenido del curso__
+
+* Introducción a Machine Learning.
+* Introducción a Deep Learning.
+* Introducción a Tensorflow.
+* Redes neuronales biológicas vs redes neuronales artificiales.
+* Funciones de activación.
+* Regresión lineal.
+* Modelos de redes neuronales artificiales.
+* Función de pérdida.
+* Feed-forward y back-propagation.
+* Inicialización y actualización de pesos.
+* Batch normalization.
+* Pooling.
+* Dropout.
+* Regularización.
+* Redes neuronales convolucionales.
+* _Diversión y mucho más._
+
+
+__Requisitos__ 
+
+Anaconda (para Windows, iOs o Linux) con Python 2.7+ (https://www.anaconda.com/download/)
+
+Cuenta activa de Github (github.com)
+
+__Instalación de librerías__
+
+conda create -n py36 python=3.6 anaconda
+
+![ima001](https://docs.google.com/drawings/d/e/2PACX-1vTbUqswknPfLuDOWezlqqNNuhZ2hwlSGkxnh-pSieYD3sa_Uh-Yr5-Wq6WVDsJkCGcjHjoaHsw-JsW2/pub?w=753&h=216)
+
+conda activate py36
+
+conda install -c anaconda git jupyter numpy matplotlib cython scikit-image
+
+![ima002](https://docs.google.com/drawings/d/e/2PACX-1vQS5Z2_WR9oDPHOz5g5f0bHot8UpA6meyWwU20HxxsC-h3dDxY4N-o8jRdYI1i8VAbyrThnMMmpwnFx/pub?w=1012&h=307)
+
+conda install anaconda-client
+
+pip install opencv-contrib-python
+
+conda install tensorflow 
+
+conda install -c conda-forge tqdm
+
+conda install -c conda-forge keras
+
+conda install pytictoc -c ecf
+
+conda update --all
+
+
+# Verificación de instalación
+
+Probablemente te preguntes ¿Cómo puedes comprobar que tu instalación es correcta? Escribe las siguientes líneas de código:
+
+python -V
+
+git --version
+
+jupyter --version
+
+python
+
+import numpy as np
+
+import matplotlib as plt
+
+import cv2
+
+cv2.__version__
+
+![ima003](https://docs.google.com/drawings/d/e/2PACX-1vSeZYvCdT1r0aTybL4pf_IA1frawKi_94KIVfjzFdAoDA4LfHr4vXD2VqHjT0aT1yzWhV9jS2rtE45X/pub?w=1362&h=549)
+
+import tensorflow as tf
+
+hello = tf.constant('Hello, TensorFlow!')
+
+sess = tf.Session()
+
+print(sess.run(hello))
+
+exit()
+
+
+
+
+__Instructores__
+
+Ing. Héctor Sánchez Barrera, hsanchezb1600@alumno.ipn.mx
+
+Ing. Dagoberto Pulido, dpulidoa1600@alumno.ipn.mx
+
+M. En TA. Sandra de la Fuente, sdelafuenteb1400@alumno.ipn.mx
+
+
+
+__Organizadores__
+
+M. En TA. Raymundo Ramos.
+
+M. En TA. Christian Matilde.
+
+
+
+__Referencias__
+
+_Cursos relacionados_
 
 Fei-Fei Li, Andrej Karpathy, Justin Johnson, [“CS231n: Convolutional Neural Networks for Visual Recognition”](http://cs231n.stanford.edu/). Stanford University, Spring 2016.
 
@@ -35,7 +151,9 @@ Niloy J. Mitra, Iasonas Kokkinos, Paul Guerrero, Vladimir Kim, Kostas Rematas, T
 Xavier Giro-i-Nieto,	Elisa Sayrol,	Amaia Salvador,	Jordi Torres,	Eva Mohedano,	Kevin McGuinness, [“Deep Learning for Computer Vision Barcelona”](http://imatge-upc.github.io/telecombcn-2016-dlcv/). UPC ETSETB TelecomBCN 2016.
 
 
-__Referencias__
+_Fuentes de información_
 
 Goodfellow, Ian; Bengio, Y.; Courville, A. Deep Learning [on line].    2016 [Consultation: 22/02/2016]. Available on: <http://www.deeplearningbook.org/>. 
 
+
+_Juega con la [demostración gráfica](http://playground.tensorflow.org/#activation=relu&regularization=L1&batchSize=10&dataset=gauss&regDataset=reg-plane&learningRate=0.01&regularizationRate=0&noise=0&networkShape=4,2&seed=0.42360&showTestData=true&discretize=true&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false) de deep learning!_
