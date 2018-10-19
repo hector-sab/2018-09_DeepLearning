@@ -1,133 +1,17 @@
+import os
 import cv2
 import numpy as np
-from tqdm import tqdm
-import tensorflow as tf
 
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
-import utils as ut
+import ui_utils as ut
+from neural_model import Data
 
-# TODO: Complete Model and Trainer classes, and Training method of the UI
+
 
 IM_SHAPE = (64,64) # Height, Width
-CLS = {0:'Center',1:'Top',2:'Right',3:'Bottom',4:'Left'}
-
-class Data:
-	def __init__(self,ims,lbs,im_h=64,im_w=64):
-		self.IM_H = im_h
-		self.IM_W = im_w
-
-		self.ims = ims
-		self.lbs = lbs
-
-		self.total_it = self.ims.shape[0]
-		self.current_item = 0
-
-	def next_batch(self,bs=0):
-		"""
-		Returns the next batch of images and labels.
-		Args:
-			bs (int): Size of the batch
-		"""
-		
-		ims = self.ims[self.current_item:self.current_item+bs]
-		lbs = self.lbs[self.current_item:self.current_item+bs]
-
-		ims = np.reshape(ims,(-1,self.ims.shape[1],self.ims.shape[2],self.ims.shape[3]))
-		lbs = np.reshape(lbs,(-1,1))
-
-		self.current_item += bs
-
-		if self.current_item>=self.total_it:
-			self.current_item = 0
-		
-		return(ims,lbs)
-
-	def reset_ind(self):
-		self.current_item = 0
-
-class Model:
-	def __init__(self,init=False):
-		self.sess = tf.Session()
-
-		self.IM_H = IM_SHAPE[0]
-		self.IM_W = IM_SHAPE[1]
-		self.NUM_C =len(CLS)
-
-		self.ims_inp = tf.placeholder(tf.float32,shape=[None,self.IM_H,self.IM_W,3])
-		#self.lbs_inp = tf.placeholder(tf.float32,shape=[None,1])
-		#self.lbs_onehot = tf.one_hot(tf.cast(self.lbs_inp,tf.int32),depth=len(self.NUM_C))
-
-		self.__model()
-
-		if init:
-			self.init_variables()
-
-	def __model(self):
-		self.conv1 = tf.layers.conv2d(inputs=self.ims_inp,filters=32,kernel_size=3,activation=tf.nn.relu)
-		self.pool1 = tf.layers.max_pooling2d(self.conv1,pool_size=2,strides=2)
-
-		self.conv2 = tf.layers.conv2d(inputs=self.pool1,filters=32,kernel_size=3,activation=tf.nn.relu)
-		self.pool2 = tf.layers.max_pooling2d(self.conv2,pool_size=2,strides=2)
-
-		self.conv3 = tf.layers.conv2d(inputs=self.pool2,filters=32,kernel_size=3,activation=tf.nn.relu)
-		self.pool3 = tf.layers.max_pooling2d(self.conv3,pool_size=2,strides=2)
-
-		shape = self.pool3.get_shape()
-		self.flat1 = tf.reshape(self.pool3,[-1,shape[1].value*shape[2].value*shape[3].value])
-		
-		self.fc1 = tf.layers.dense(self.flat1,units=256,activation=tf.nn.relu)
-		self.fc2 = tf.layers.dense(self.fc1,units=256,activation=tf.nn.relu)
-		self.fc3 = tf.layers.dense(self.flat1,units=self.NUM_C)
-		self.last_layer = tf.identity(self.fc3)
-
-		self.pred = tf.nn.softmax(self.fc3,axis=-1)
-
-	def predict(self,inputs):
-		fd = {self.ims_inp:inputs}
-		pred = self.sess.run(self.pred,feed_dict=fc)
-		return(pred)
-
-	def init_variables(self):
-		self.sess.run(tf.global_variables_initializer())
-
-class Trainer:
-	def __init__(self,model):
-		#self.train_set = train_set
-
-		self.model = model
-		self.sess = self.model.sess
-
-		self.ims_inp = self.model.ims_inp
-		self.lbs_inp = tf.placeholder(tf.float32,shape=[None,1])
-		self.lbs_onehot = tf.one_hot(tf.cast(self.lbs_inp,tf.int32),depth=self.model.NUM_C)
-
-		self.loss = self.__loss()
-		self.optimizer = tf.train.AdamOptimizer(learning_rate=1e-4).minimize(self.loss)
-
-		self.init_variables()
-
-	def __loss(self):
-		loss = tf.nn.softmax_cross_entropy_with_logits_v2(labels=self.lbs_onehot,logits=self.model.last_layer)
-		loss = tf.reduce_mean(loss)
-		return(loss)
-
-	def train(self,its=1,bs=1):
-		pbar = tqdm(range(its))
-		for it in pbar:
-			ims,lbs = self.train_set.next_batch(bs)
-			fd = {self.ims_inp:ims,self.lbs_inp:lbs}
-
-			self.sess.run(self.optimizer,feed_dict=fd)
-
-	def init_variables(self):
-		self.sess.run(tf.global_variables_initializer())
-
-	def set_train_set(self,train_set):
-		self.train_set = train_set
-
 
 class DataCollection:
 	def __init__(self,cam,root,name='Collection'):
@@ -155,30 +39,30 @@ class DataCollection:
 
 		# Etiquetas
 		self.lbl_top = tk.Label(self.window,text="Arriba")
-		self.lbl_left = tk.Label(self.window,text="Izquierda")
+		#self.lbl_left = tk.Label(self.window,text="Izquierda")
 		self.lbl_center = tk.Label(self.window,text="Neutral")
-		self.lbl_right = tk.Label(self.window,text="Derecha")
+		#self.lbl_right = tk.Label(self.window,text="Derecha")
 		self.lbl_bottom = tk.Label(self.window,text="Abajo")
 
 		# Posicion de las etiquetas
 		self.lbl_top.grid(column=1,row=0)
-		self.lbl_left.grid(column=0,row=3)
+		#self.lbl_left.grid(column=0,row=3)
 		self.lbl_center.grid(column=1,row=3)
-		self.lbl_right.grid(column=2,row=3)
+		#self.lbl_right.grid(column=2,row=3)
 		self.lbl_bottom.grid(column=1,row=6)
 
 		# Canvas de los thumbnails
 		self.tn_cvs_top = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
 		self.tn_cvs_bottom = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
 		self.tn_cvs_center = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
-		self.tn_cvs_left = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
-		self.tn_cvs_right = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
+		#self.tn_cvs_left = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
+		#self.tn_cvs_right = tk.Canvas(self.window,width=self.tn_shape[1],height=self.tn_shape[0])
 
 		# Coloca a los thumbnails en sus posiciones
 		self.tn_cvs_top.grid(column=1,row=1)
-		self.tn_cvs_left.grid(column=0,row=4)
+		#self.tn_cvs_left.grid(column=0,row=4)
 		self.tn_cvs_center.grid(column=1,row=4)
-		self.tn_cvs_right.grid(column=2,row=4)
+		#self.tn_cvs_right.grid(column=2,row=4)
 		self.tn_cvs_bottom.grid(column=1,row=7)
 
 		# Inicializa los thumbnails con imagenes negras
@@ -186,8 +70,8 @@ class DataCollection:
 		self.tn_im_top = self.tn_cvs_top.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
 		self.tn_im_bottom = self.tn_cvs_bottom.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
 		self.tn_im_center = self.tn_cvs_center.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
-		self.tn_im_left = self.tn_cvs_left.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
-		self.tn_im_right = self.tn_cvs_right.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
+		#self.tn_im_left = self.tn_cvs_left.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
+		#self.tn_im_right = self.tn_cvs_right.create_image(self.tn_shape[1]//2,self.tn_shape[0]//2,image=bk_im)
 
 		# Contenedor de las imagenes en los thumbnails
 		self.im_top = None
@@ -200,14 +84,14 @@ class DataCollection:
 		self.btn_tn_top = tk.Button(self.window,text='Get',command=lambda:self.__get_image('top'))
 		self.btn_tn_bottom = tk.Button(self.window,text='Get',command=lambda:self.__get_image('bottom'))
 		self.btn_tn_center = tk.Button(self.window,text='Get',command=lambda:self.__get_image('center'))
-		self.btn_tn_left = tk.Button(self.window,text='Get',command=lambda:self.__get_image('left'))
-		self.btn_tn_right = tk.Button(self.window,text='Get',command=lambda:self.__get_image('right'))
+		#self.btn_tn_left = tk.Button(self.window,text='Get',command=lambda:self.__get_image('left'))
+		#self.btn_tn_right = tk.Button(self.window,text='Get',command=lambda:self.__get_image('right'))
 
 		# Coloca los botones en posicion
 		self.btn_tn_top.grid(column=1,row=2)
-		self.btn_tn_left.grid(column=0,row=5)
+		#self.btn_tn_left.grid(column=0,row=5)
 		self.btn_tn_center.grid(column=1,row=5)
-		self.btn_tn_right.grid(column=2,row=5)
+		#self.btn_tn_right.grid(column=2,row=5)
 		self.btn_tn_bottom.grid(column=1,row=8)
 
 	def __get_image(self,tn):
@@ -235,7 +119,7 @@ class DataCollection:
 				self.ims_set_top = np.concatenate([self.ims_set_top,frame],axis=0)
 			# Indica el numero de imagenes tomadas en el boton
 			self.btn_tn_top.config(text=str(self.ims_set_top.shape[0]))
-			print('top',self.ims_set_top.shape)
+			#print('top',self.ims_set_top.shape)
 
 		elif tn=='bottom':
 			self.im_bottom = ImageTk.PhotoImage(image=im)
@@ -246,7 +130,7 @@ class DataCollection:
 			else:
 				self.ims_set_bottom = np.concatenate([self.ims_set_bottom,frame],axis=0)
 			self.btn_tn_bottom.config(text=str(self.ims_set_bottom.shape[0]))
-			print('bottom',self.ims_set_bottom.shape)
+			#print('bottom',self.ims_set_bottom.shape)
 
 		elif tn=='center':
 			self.im_center = ImageTk.PhotoImage(image=im)
@@ -257,7 +141,7 @@ class DataCollection:
 			else:
 				self.ims_set_center = np.concatenate([self.ims_set_center,frame],axis=0)
 			self.btn_tn_center.config(text=str(self.ims_set_center.shape[0]))
-			print('center',self.ims_set_center.shape)
+			#print('center',self.ims_set_center.shape)
 
 		elif tn=='left':
 			self.im_left = ImageTk.PhotoImage(image=im)
@@ -268,7 +152,7 @@ class DataCollection:
 			else:
 				self.ims_set_left = np.concatenate([self.ims_set_left,frame],axis=0)
 			self.btn_tn_left.config(text=str(self.ims_set_left.shape[0]))
-			print('left',self.ims_set_left.shape)
+			#print('left',self.ims_set_left.shape)
 
 		elif tn=='right':
 			self.im_right = ImageTk.PhotoImage(image=im)
@@ -279,7 +163,7 @@ class DataCollection:
 			else:
 				self.ims_set_right = np.concatenate([self.ims_set_right,frame],axis=0)
 			self.btn_tn_right.config(text=str(self.ims_set_right.shape[0]))
-			print('right',self.ims_set_right.shape)
+			#print('right',self.ims_set_right.shape)
 
 	def _on_closing(self):
 		self.cam.stop()
@@ -353,6 +237,9 @@ class TrainModel:
 
 class Main:
 	def __init__(self,model=None,trainer=None,cam=None,name='Main'):
+		self.__model_class = model
+		self.__trainer_class = trainer
+
 		if cam is None:
 			self.cam = ut.VideoStreamThread()
 		else:
@@ -373,21 +260,68 @@ class Main:
 	def __content(self):
 		size = (20,20) # height, width
 		self.btn_create_data = tk.Button(self.root,text="Recolectar Datos",command=self.__data_collection)
+		self.btn_save_data = tk.Button(self.root,text="Guardar Datos",command=self.__data_save)
+		self.btn_load_data = tk.Button(self.root,text="Recargar Datos",command=self.__data_load)
 		self.btn_train_model = tk.Button(self.root,text="Entrenar Modelo",command=self.__train_model)
 		self.btn_run_game = tk.Button(self.root,text="Iniciar Juego",command=self.__run_game)
 
 		self.btn_create_data.config(height=size[0],width=size[1])
+		self.btn_save_data.config(height=size[0],width=size[1])
+		self.btn_load_data.config(height=size[0],width=size[1])
 		self.btn_train_model.config(height=size[0],width=size[1])
 		self.btn_run_game.config(height=size[0],width=size[1])
 
 		self.btn_create_data.grid(column=0,row=0)
-		self.btn_train_model.grid(column=1,row=0)
-		self.btn_run_game.grid(column=2,row=0)
+		self.btn_save_data.grid(column=1,row=0)
+		self.btn_load_data.grid(column=2,row=0)
+		self.btn_train_model.grid(column=3,row=0)
+		self.btn_run_game.grid(column=4,row=0)
 
 	def __data_collection(self):
 		print('Data Collection')
 		self.root.withdraw()
 		self.dataCollection.display_window()
+
+	def __data_save(self):
+		ims = np.zeros((0,self.dataCollection.ims_set_shape[0],
+			self.dataCollection.ims_set_shape[1],3))
+		lbs = np.zeros((0,1))
+
+		ims_center = self.dataCollection.ims_set_center
+		if ims_center is not None:
+			lbs_center = np.ones((ims_center.shape[0],1))*0
+			ims = np.concatenate([ims,ims_center],axis=0)
+			lbs = np.concatenate([lbs,lbs_center],axis=0)
+
+		ims_top = self.dataCollection.ims_set_top
+		if ims_top is not None:
+			lbs_top = np.ones((ims_top.shape[0],1))*1
+			ims = np.concatenate([ims,ims_top],axis=0)
+			lbs = np.concatenate([lbs,lbs_top],axis=0)
+
+		ims_bottom = self.dataCollection.ims_set_bottom
+		if ims_bottom is not None:
+			lbs_bottom = np.ones((ims_bottom.shape[0],1))*2
+			ims = np.concatenate([ims,ims_bottom],axis=0)
+			lbs = np.concatenate([lbs,lbs_bottom],axis=0)
+
+		np.save('saved_ims',ims)
+		np.save('saved_lbs',lbs)
+
+		print('Dataset shape:',ims.shape,lbs.shape)
+
+	def __data_load(self):
+		if os.path.isfile('saved_ims.npy') and os.path.isfile('saved_lbs.npy'):
+			ims = np.load('saved_ims.npy')
+			lbs = np.load('saved_lbs.npy')
+
+			lbs = lbs.reshape(-1)
+			self.dataCollection.ims_set_top = ims[lbs==1]
+			self.dataCollection.ims_set_center = ims[lbs==0]
+			self.dataCollection.ims_set_bottom = ims[lbs==2]
+			print('Archivos cargados.')
+		else:
+			print('No se encontraron archivos que cargar.')
 
 	def __train_model(self):
 		print('Train Model')
@@ -404,8 +338,8 @@ class Main:
 		self.trainModel.display_window()
 
 	def __init_models(self):
-		self.model = Model()
-		self.trainer = Trainer(model=self.model)
+		self.model = self.__model_class()
+		self.trainer = self.__trainer_class(model=self.model)
 		self.__set_new_training_data()
 
 	def __set_new_training_data(self):
@@ -425,24 +359,11 @@ class Main:
 			ims = np.concatenate([ims,ims_top],axis=0)
 			lbs = np.concatenate([lbs,lbs_top],axis=0)
 
-		ims_right = self.dataCollection.ims_set_right
-		if ims_right is not None:
-			lbs_right = np.ones((ims_right.shape[0],1))*2
-			ims = np.concatenate([ims,ims_right],axis=0)
-			lbs = np.concatenate([lbs,lbs_right],axis=0)
-
 		ims_bottom = self.dataCollection.ims_set_bottom
 		if ims_bottom is not None:
-			lbs_bottom = np.ones((ims_bottom.shape[0],1))*3
+			lbs_bottom = np.ones((ims_bottom.shape[0],1))*2
 			ims = np.concatenate([ims,ims_bottom],axis=0)
 			lbs = np.concatenate([lbs,lbs_bottom],axis=0)
-
-		ims_left = self.dataCollection.ims_set_left
-		if ims_left is not None:	
-			lbs_left = np.ones((ims_left.shape[0],1))*4
-			ims = np.concatenate([ims,ims_left],axis=0)
-			lbs = np.concatenate([lbs,lbs_left],axis=0)
-
 
 		print('Dataset shape:',ims.shape,lbs.shape)
 		
@@ -450,14 +371,11 @@ class Main:
 		self.trainer.set_train_set(train_set=train_set)
 
 	def __run_game(self):
+		self.root.withdraw()
 		print('Run Game')
 
-
-
-if __name__=='__main__':
-	#model = Model()
-	#cam = ut.VideoStreamThread()
-	
-	#cam.start()
-	main = Main(model=Model,trainer=Trainer)
-	#cam.stop()
+		import game as ob
+		game = ob.TRexGame()
+		game.set_controller(model=self.model,cam=self.cam,
+			im_shape=self.dataCollection.ims_set_shape)
+		game.start()
