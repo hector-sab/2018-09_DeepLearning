@@ -1,3 +1,7 @@
+### Entrenamiento de T-Rex Rush
+
+![](https://github.com/shivamshekhar/Chrome-T-Rex-Rush/raw/master/screenshot.gif)
+
 Se describen las instrucciones para el proyecto final. Considera que debes contar con una cámara de video funcional conectada a tu máquina para tomar las fotografías de entrenamiento.
 
 Dentro del entorno virtual generado como py36, en el directorio C:\Users\...\2018-09_DeepLearning\Notas\Projecto_Final\t_rex, ejecute la siguiente línea de comandos.
