@@ -14,3 +14,11 @@ Estás listo para entrenar datos, selecciona el botón superior para entrenar la
 
 ![train](https://docs.google.com/drawings/d/e/2PACX-1vS_B6_pjb0XviBZ6vbIPjYhluIEgoNkqcpaTxtAIDjeerpY8HnVoKK1X4oBfqJAUQ_uXbNqOWf6ILem/pub?w=205&h=719)
 
+Una vez terminado el entrenamiento, cierra la ventana de entrenamiento. Guarda los datos.
+
+Entrena el modelo, introduciendo el learning rate, batch size y las iteraciones.
+
+![model](https://docs.google.com/drawings/d/e/2PACX-1vS0qYMc90A1ouJI_dd2DBezRUeDpOF_ETNR09NLD15qRW1H16WtpXJV8Hq61zAbjAr2WxDN-2aZShdp/pub?w=958&h=119)
+
+¡Estás listo para iniciar el juego y divertirte!
+
