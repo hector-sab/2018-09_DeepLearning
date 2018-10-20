@@ -54,9 +54,9 @@ conda install -c anaconda git jupyter numpy matplotlib cython scikit-image
 
 ![ima002](https://docs.google.com/drawings/d/e/2PACX-1vQS5Z2_WR9oDPHOz5g5f0bHot8UpA6meyWwU20HxxsC-h3dDxY4N-o8jRdYI1i8VAbyrThnMMmpwnFx/pub?w=1012&h=307)
 
-conda install anaconda-client
-
 pip install opencv-contrib-python
+
+pip install ttictoc
 
 conda install tensorflow 
 
@@ -65,6 +65,14 @@ conda install -c conda-forge tqdm
 conda install -c conda-forge keras
 
 conda install pytictoc -c ecf
+
+conda install -c cogsci pygame
+
+o
+
+pip install pygame
+
+conda install -c anaconda pillow
 
 conda update --all
 
@@ -153,7 +161,17 @@ Xavier Giro-i-Nieto,	Elisa Sayrol,	Amaia Salvador,	Jordi Torres,	Eva Mohedano,	K
 
 _Fuentes de información_
 
-Goodfellow, Ian; Bengio, Y.; Courville, A. Deep Learning [on line].    2016 [Consultation: 22/02/2016]. Available on: <http://www.deeplearningbook.org/>. 
+* Gonzalez, R. C., & Woods, R. E. (2002). Digital image processing second edition. Beijing: Publishing House of Electronics Industry, 455.
+
+* Goodfellow, I., Bengio, Y,, & Courville A. (2016). Deep Learning. [Consultation: 22/02/2016]. Available on: <http://www.deeplearningbook.org/>. 
+
+* Salas J. (2018). Reconocimiento de patrones. CICATA Qro. IPN.
+
+* Publicaciones diversas.
+
+* Apuntes personales.
+
+* Referencias diversas de Tensorflow, Python, OpenCV, Nvidia Digits, Udacity.
 
 
 _Juega con la [demostración gráfica](http://playground.tensorflow.org/#activation=relu&regularization=L1&batchSize=10&dataset=gauss&regDataset=reg-plane&learningRate=0.01&regularizationRate=0&noise=0&networkShape=4,2&seed=0.42360&showTestData=true&discretize=true&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false) de deep learning!_
