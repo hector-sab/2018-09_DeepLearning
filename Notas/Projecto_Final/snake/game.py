@@ -27,7 +27,7 @@ def collide3(x1,y1,x2,y2,x3,y3,x4,y4,size):
 
 class snake():
     def __init__(self,speed, size):
-        self.pos = [20,20]
+        self.pos = [60,60]
         self.image = pg.Surface((10*size,10*size))
         self.image.fill((0,255,0))
         self.speed = speed
@@ -353,13 +353,13 @@ class StartMenu():
         self.b4 = '(550, 300,100,50),"Expert", [(0,255,0), (0,150,0)], action = self.ex'
         self.buttons = [self.b1, self.b2,self.b3,self.b4]
     def e(self):
-        self.start_game(0.1, self.size)
+        self.start_game(0.01, self.size)
     def n(self):
-        self.start_game(0.2, self.size)
+        self.start_game(0.02, self.size)
     def h(self):
-        self.start_game(0.5, self.size)
+        self.start_game(0.05, self.size)
     def ex(self):
-        self.start_game(1, self.size)
+        self.start_game(0.1, self.size)
     def exit(self):
         self.cam.stop()
         sys.exit()
