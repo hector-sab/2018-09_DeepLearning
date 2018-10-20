@@ -163,6 +163,8 @@ _Fuentes de información_
 
 * Goodfellow, I., Bengio, Y,, & Courville A. (2016). Deep Learning. [Consultation: 22/02/2016]. Available on: <http://www.deeplearningbook.org/>. 
 
+* Trask, A. (2016). Grokking deep learning.
+
 * Salas J. (2018). Reconocimiento de patrones. CICATA Qro. IPN.
 
 * Publicaciones diversas.
