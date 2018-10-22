@@ -1,8 +1,5 @@
 ### Curso de Deep Learning, CICATA IPN Qro. 2018.
-www.cicataqro.ipn.mx
-
-
-En el siguiente se encuentra la [presentación para el curso](https://docs.google.com/presentation/d/1bH6CFAhBaSgL6xC21K4GCNIy6dnb9gfB2beEpRJX660/edit?usp=sharing).
+www.cicataqro.ipn.mx 
 
 El contenido teórico se encuentra en la [wiki](https://github.com/hector-sab/2018-09_DeepLearning/wiki).
 
