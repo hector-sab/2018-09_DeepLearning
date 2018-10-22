@@ -2,9 +2,6 @@
 www.cicataqro.ipn.mx
 
 
-_Notas para los instructores:_
-
-
 En el siguiente se encuentra la [presentación para el curso](https://docs.google.com/presentation/d/1bH6CFAhBaSgL6xC21K4GCNIy6dnb9gfB2beEpRJX660/edit?usp=sharing).
 
 El contenido teórico se encuentra en la [wiki](https://github.com/hector-sab/2018-09_DeepLearning/wiki).
@@ -43,68 +40,43 @@ Cuenta activa de Github (github.com)
 
 __Instalación de librerías__
 
-conda create -n py36 python=3.6 anaconda
+```
+conda create -n py36 python=3.6
+```
 
 ![ima001](https://docs.google.com/drawings/d/e/2PACX-1vTbUqswknPfLuDOWezlqqNNuhZ2hwlSGkxnh-pSieYD3sa_Uh-Yr5-Wq6WVDsJkCGcjHjoaHsw-JsW2/pub?w=753&h=216)
 
+```
 conda activate py36
+pip instll cython numpy pillow opencv-contrib-python matplotlib pygame tensorflow tqdm
+conda install scikit-image keras jupyter git
+```
 
-conda install -c anaconda git jupyter numpy matplotlib cython scikit-image
 
 ![ima002](https://docs.google.com/drawings/d/e/2PACX-1vQS5Z2_WR9oDPHOz5g5f0bHot8UpA6meyWwU20HxxsC-h3dDxY4N-o8jRdYI1i8VAbyrThnMMmpwnFx/pub?w=1012&h=307)
-
-pip install opencv-contrib-python
-
-pip install ttictoc
-
-conda install tensorflow 
-
-conda install -c conda-forge tqdm
-
-conda install -c conda-forge keras
-
-conda install pytictoc -c ecf
-
-conda install -c cogsci pygame
-
-o pip install pygame
-
-conda install -c anaconda pillow
-
-conda update --all
 
 
 # Verificación de instalación
 
-Probablemente te preguntes ¿Cómo puedes comprobar que tu instalación es correcta? Escribe las siguientes líneas de código:
-
+Probablemente te preguntes ¿Cómo puedes comprobar que tu instalación es correcta? Escribe las siguientes líneas de código y nos debe indicar la versión instalada.
+```
+git --version
+jupyter --version
 python -V
 
-git --version
-
-jupyter --version
-
 python
-
 import numpy as np
-
-import matplotlib as plt
-
+np.__version__
+import maplotlin
+matplotlib.__version__
 import cv2
-
 cv2.__version__
+import tensorflow as tf
+tf.__version__
+```
 
 ![ima003](https://docs.google.com/drawings/d/e/2PACX-1vSeZYvCdT1r0aTybL4pf_IA1frawKi_94KIVfjzFdAoDA4LfHr4vXD2VqHjT0aT1yzWhV9jS2rtE45X/pub?w=1362&h=549)
 
-import tensorflow as tf
-
-hello = tf.constant('Hello, TensorFlow!')
-
-sess = tf.Session()
-
-print(sess.run(hello))
-
-exit()
 
 
 
