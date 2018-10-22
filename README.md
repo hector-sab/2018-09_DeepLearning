@@ -31,7 +31,7 @@ __Contenido del curso__
 
 __Requisitos__ 
 
-Anaconda (para Windows, iOs o Linux) con Python 2.7+ (https://www.anaconda.com/download/)
+Anaconda (para Windows, MacOS, y Linux) con Python 2.7+ (https://www.anaconda.com/download/)
 
 Cuenta activa de Github (github.com)
 
